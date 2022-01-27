@@ -14,25 +14,24 @@ d={ 'high':'High',
 index_name='fromatted_date'
 #declare your stock and time frame
 stock = 'AAPL'
-start_date='2020-01-01'
+start_date='2010-01-01'
 end_date=datetime.now().strftime('%Y-%m-%d')
-period='5y'
+period='max'
 #GET data WEEKLY
-response = yf.download(tickers=[stock],period=period,interval='1wk')
+response = yf.download(tickers=[stock],period='10y',interval='1wk')
 response.rename(str.lower,axis='columns',inplace=True)
 weekly=CM(response,**d)
 #GET data MONTHLY
-response = yf.download(tickers=[stock],period=period,interval='1mo')
+response = yf.download(tickers=[stock],period='10y',interval='1mo')
 response.rename(str.lower,axis='columns',inplace=True)
 monthly=CM(response,True,**d)
 #GET data TRIM
-response = yf.download(tickers=[stock],period=period,interval='3mo')
+response = yf.download(tickers=[stock],period='10y',interval='3mo')
 response.rename(str.lower,axis='columns',inplace=True)
 trim=CM(response,True,**d)
 
 anlysis=Analysis(weekly,monthly,trim)
-
-anlysis.visualize()
+#anlysis.visualize()
 
 
 

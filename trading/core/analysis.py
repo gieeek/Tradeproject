@@ -16,9 +16,10 @@ class Analysis:
                                      low=self.weekly['low'],
                                      close=self.weekly['close'],
                                      name='market_data'),row=1,col=1)
-        fig.add_trace(go.Scatter(x=self.weekly.index,y=self.weekly['CM']),row=2,col=1)
-        fig.add_trace(go.Scatter(x=self.weekly.index,y=self.weekly['CM']), row=2, col=1)
-        fig.add_trace(go.Scatter(x=self.weekly.index, y=self.weekly['CM']), row=2, col=1)
+        #fig.add_trace(go.Bar(x=self.weekly.index,y=self.weekly['CM']),row=2,col=1)
+        #fig.add_trace(go.Bar(x=self.monthly.index,y=self.monthly['CM']), row=2, col=1)
+
+        fig.add_trace(go.Bar(x=self.trim.index, y=self.trim['CM']), row=2, col=1)
 
         fig.show()
         return

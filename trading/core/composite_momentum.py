@@ -34,6 +34,7 @@ class CM(pd.DataFrame):
         self.index.names=['formatted_date']
         self.k=4
         self.compute_CM()
+        print('Number of records: '+str(len(self)))
         return
 
     def compute_key(self):
@@ -70,7 +71,6 @@ class CM(pd.DataFrame):
         cc = aa - abs(bb)
 
         self['key'] = cc.ewm(span=3, adjust=True).mean()
-
         return
 
     def compute_xtl(self):
@@ -84,7 +84,6 @@ class CM(pd.DataFrame):
 
         self['xtl'] = self['%D'].rolling(3).apply(lambda prices: np.dot(prices, np.arange(1, 4)) / np.arange(1, 4).sum(),
                                           raw=True)*2 -100
-
         return
 
     def compute_CM(self):
@@ -99,13 +98,15 @@ class CM(pd.DataFrame):
 
 
     def visualize(self):
-        fig = go.Figure()
+        fig=make_subplots(rows=2,cols=1,shared_xaxes=True)
         fig.add_trace( go.Candlestick(  x=self.index,
                                         open=self['open'],
                                         high=self['high'],
                                         low=self['low'],
                                         close=self['close'],
-                                        name='market_data'))
+                                        name='market_data'),row=1,col=1)
+        fig.add_trace(go.Bar(x=self.index,y=self['CM']),row=2,col=1)
+        fig.update_xaxes(rangebreaks=[dict(bounds=["sat", "mon"])])  # hide weekends
         fig.show()
         return
         # data=yf.download(stock,start="2004-01-01", end="2014-12-31", interval='1wk' )
