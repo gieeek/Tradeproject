@@ -1,4 +1,5 @@
 from trading.core.composite_momentum import CM
+from trading.core.analysis import Analysis
 from datetime import datetime
 import pandas_datareader as web
 import yfinance as yf
@@ -29,7 +30,9 @@ response = yf.download(tickers=[stock],period=period,interval='3mo')
 response.rename(str.lower,axis='columns',inplace=True)
 trim=CM(response,True,**d)
 
+anlysis=Analysis(weekly,monthly,trim)
 
+anlysis.visualize()
 
 
 
