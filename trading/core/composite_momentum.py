@@ -29,13 +29,8 @@ class CM(pd.DataFrame):
                 'adj Close':0}
             Use this dict or manually insert the name of your Panda columns that are different from this
     """
-    def __init__(self,t,rename=False,**kwargs):
+    def __init__(self,t):
         super().__init__(t)
-        if rename:
-            if len(kwargs)<len(self.columns):
-                warnings.warn("Not all the columns were rename")
-            for key,val in kwargs.items():
-                self.rename({val:key})
         self.drop('date', axis=1).set_index('formatted_date')
         self.k=4
         self.compute_CM()

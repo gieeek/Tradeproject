@@ -1,24 +1,31 @@
 from trading.core.composite_momentum import CM
+from trading.utils.utils import rename_df
 from datetime import datetime
 import pandas_datareader as web
 import yfinance as yf
-import nasdaqdatalink
-nasdaqdatalink.read_key('.nasdaq/data_link_apikey.txt')
-mydata = nasdaqdatalink.get("EOD/AAPL",api_key='sUkyt3uNut7e8JsHzbo8')
-print(mydata)
+
+d={ 'date':'Date',
+    'high':'High',
+    'low':'Low',
+    'open':'Open',
+    'close':'Close',
+    'volume':'Volume',
+    'adj Close':'Adj Close'}
+
 #declare your stock and time frame
 stock = 'AAPL'
 start_date='2020-01-01'
 end_date=datetime.now().strftime('%Y-%m-%d')
 #GET data WEEKLY
-response = web.DataReader(stock, start="2004-01-01", end="2014-12-31")
-weekly=CM(response[stock]['prices'])
+response = rename_df(yf.download(tickers=[stock],period='max',interval='1wk'),**d)
+print(response)
+weekly=CM(response)
 #GET data MONTHLY
-response = web.DataReader(stock, start="2004-01-01", end="2014-12-31", interval='m')
-monthly=CM(response[stock]['prices'])
+response = rename_df(yf.download(tickers=[stock],period='max',interval='1mo'),**d)
+monthly=CM(response)
 #GET data TRIM
-response = web.DataReader(stock, start="2004-01-01", end="2014-12-31", interval='3mo')
-trim=CM(response[stock]['prices'])
+response = rename_df(yf.download(tickers=[stock],period='max',interval='3mo'),**d)
+trim=CM(response)
 
 
 trim.visualize()
