@@ -29,9 +29,9 @@ class CM(pd.DataFrame):
                 'adj Close':0}
             Use this dict or manually insert the name of your Panda columns that are different from this
     """
-    def __init__(self,t):
+    def __init__(self,t,rn=False,**kwargs):
         super().__init__(t)
-        self.drop('date', axis=1).set_index('formatted_date')
+        self.index.names=['formatted_date']
         self.k=4
         self.compute_CM()
         return
